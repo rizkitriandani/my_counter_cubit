@@ -34,9 +34,13 @@ class MyHomePage extends StatelessWidget {
     print("==REBUILD ALL==");
     return Scaffold(
       body: Center(
-        child: Text(
-          "${BlocProvider.of<CounterCubit>(context,listen: true).state.counter}",
-          style: TextStyle(fontSize: 52.0),
+        child: BlocBuilder<CounterCubit, CounterState>(
+          builder: (context, state) {
+            return Text(
+              "${state.counter}",
+              style: TextStyle(fontSize: 52.0),
+            );
+          },
         ),
       ),
       floatingActionButton: Row(
