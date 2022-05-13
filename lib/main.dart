@@ -4,14 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubits/counter/counter_cubit.dart';
 import 'other_page.dart';
 
-
 /**
  * BlocListener digunakan ketika kamu ingin men-trigger sebuah action ketika suatu state tercapai (diluar dari state yang diubah ya), misal ketika angka counter mancapai angka 3 kamu ingin memunculkan alert dialog. state tetap berubah tapi kamu butuh cara untuk invoke side effect ketika counter berubah ke angka 3 kan? nah disinilah dibutuhkan BlocListener.
   1. Bungkus widget yang mengandung BlocBuilder dengan BlocListener
   2. Masukkan action yang kamu ingin aplikasi jalankan ketika suatu state tertentu tercapai menggunakan perintan percabangan.
   3. Ingat untuk selalu panggill state dengan cara state.<variabel_state>
 */
-
 
 void main() {
   runApp(const MyApp());
@@ -44,7 +42,7 @@ class MyHomePage extends StatelessWidget {
     print("==REBUILD ALL==");
     return Scaffold(
       body: Center(
-        child: BlocListener<CounterCubit, CounterState>(
+        child: BlocConsumer<CounterCubit, CounterState>(
           listener: (context, state) {
             if (state.counter == 3) {
               print("MANTAP");
@@ -54,19 +52,17 @@ class MyHomePage extends StatelessWidget {
                         content: Text("TADA"),
                       ));
             } else if (state.counter == -1) {
-               print("MANTAP");
+              print("MANTAP");
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => OtherPage()));
             }
           },
-          child: BlocBuilder<CounterCubit, CounterState>(
-            builder: (context, state) {
-              return Text(
-                "${state.counter}",
-                style: TextStyle(fontSize: 52.0),
-              );
-            },
-          ),
+          builder: (context, state) {
+            return Text(
+              "${state.counter}",
+              style: TextStyle(fontSize: 52.0),
+            );
+          },
         ),
       ),
       floatingActionButton: Row(
