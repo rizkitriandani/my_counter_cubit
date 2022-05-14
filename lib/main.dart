@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'cubits/counter/counter_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        create: (context) => CounterCubit(),
-        child: MyHomePage(),
-      ),
+      home: MyHomePage(),
     );
   }
 }
@@ -35,7 +29,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          "${BlocProvider.of<CounterCubit>(context,listen: true).state.counter}",
+          "0",
           style: TextStyle(fontSize: 52.0),
         ),
       ),
@@ -43,17 +37,13 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () {
-              BlocProvider.of<CounterCubit>(context).increment();
-            },
+            onPressed: () {},
             child: Icon(Icons.add),
             heroTag: 'increment',
           ),
           SizedBox(width: 10.0),
           FloatingActionButton(
-            onPressed: () {
-              BlocProvider.of<CounterCubit>(context).decrement();
-            },
+            onPressed: () {},
             child: Icon(Icons.remove),
             heroTag: 'decrement',
           ),
