@@ -5,10 +5,15 @@ import 'cubits/counter/counter_cubit.dart';
 import 'other_page.dart';
 
 /**
- * BlocListener digunakan ketika kamu ingin men-trigger sebuah action ketika suatu state tercapai (diluar dari state yang diubah ya), misal ketika angka counter mancapai angka 3 kamu ingin memunculkan alert dialog. state tetap berubah tapi kamu butuh cara untuk invoke side effect ketika counter berubah ke angka 3 kan? nah disinilah dibutuhkan BlocListener.
-  1. Bungkus widget yang mengandung BlocBuilder dengan BlocListener
-  2. Masukkan action yang kamu ingin aplikasi jalankan ketika suatu state tertentu tercapai menggunakan perintan percabangan.
-  3. Ingat untuk selalu panggill state dengan cara state.<variabel_state>
+ * BuildContext extension ini sangat bermanfaat untuk case di mana kita butuh
+ * mengakses multiple state dari multiple bloc yang berebeda-beda. 
+ * Tinggal buat masing-masing variable untukt tiap state contoh :
+ * var state1 = context.watch<BlocA>().state;
+ * var state2 = context.watch<BlocB>().state;
+ * var state3 = context.watch<BlocC>().state;
+ * 
+ * , terus taro di widget-widget yang diperlukan. untuk selangkapnya cek di sini :
+ * https://github.com/felangel/bloc/issues/1902
 */
 
 void main() {
@@ -70,7 +75,8 @@ class MyHomePage extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).increment();
+              context.read<CounterCubit>().increment();
+              // BlocProvider.of<CounterCubit>(context).increment();
             },
             child: Icon(Icons.add),
             heroTag: 'increment',
@@ -78,7 +84,8 @@ class MyHomePage extends StatelessWidget {
           SizedBox(width: 10.0),
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).decrement();
+              context.read<CounterCubit>().decrement();
+              // BlocProvider.of<CounterCubit>(context).decrement();
             },
             child: Icon(Icons.remove),
             heroTag: 'decrement',
